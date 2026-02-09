@@ -3,6 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Genos:ital,wght@0,100..900;1,100..900&family=Iceberg&display=swap" rel="stylesheet">
         <title>Rise Academy Task 1 API</title> 
         <style>
             body {
@@ -10,15 +13,18 @@
                 padding: 0;
                 height: 100vh;
                 width: 100vw;
-                font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                font-family: "Genos", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
             }
             input {
                 box-sizing: border-box;
-                font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-                padding: 0.3rem;
+                font-family: "Genos", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+                font-size: 1rem;
+                padding-left: 0.3rem;
+            }
+            label {
+                font-size: 1.5rem;
             }
             main {
-                border: 1px solid red;
                 box-sizing:border-box;
                 display: flex;
                 flex-direction: row;
@@ -27,24 +33,24 @@
                 width: 100%;
             }
             .rnm {
-                border: 1px solid blue;
+                box-sizing: border-box;
                 display: flex;
                 flex: 2;
                 flex-direction: column;
                 gap: 0.5rem;
+                overflow: hidden;
+                padding-top: 0.5rem;
             }
             .mil {
-                border: 1px solid green;
                 box-sizing: border-box;
                 display: flex;
                 flex: 3;
                 flex-direction: column;
                 gap: 0.5rem;
+                padding: 1rem;
             }
             .mil__frm {
-                border: 0.1rem solid orange;
                 flex: 1;
-                padding: 1rem;
             }
             .mil__frm--cnt {
                 border: 0.1rem solid rgba(128, 0, 128, 0.123);
@@ -64,27 +70,39 @@
                 width: 100%;
             }
             .mil__res {
-                border: 0.1rem solid green;
+                box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.144) inset;
+                border-radius: 0.5rem;
                 flex: 2;
             }
             .rnm__ptrt {
-                border: 0.1rem solid yellow;
-                flex:3;
+                background-color: rgb(226, 245, 244);
+                border-radius: 1rem;
+                flex: 3 1 0;
+                object-fit: cover;
+                min-width: 0;
+                min-height: 0;
+            }
+            .rnm__ptrt:hover {
+                border: 0.2rem solid rgba(128, 0, 128, 0.123);
             }
             .rnm__desc {
-                border: 0.1rem solid pink;
-                flex:2;
+                box-sizing: border-box;
+                box-shadow: 5px 5px 6px rgba(0, 0, 0, 0.123) inset;
+                flex: 2 1 30px;
+                font-family: "Bruno Ace SC", sans-serif;
+                font-size: 1.5rem;
+                padding: 2rem;
             }
         </style> 
     </head>
     <body>
         <main>
             <div class="rnm">
-                <div class="rnm__ptrt">
-                    mm
+                <div class="rnm__ptrt" id="portrait_div">
+                    
                 </div>
-                <div class="rnm__desc">
-                    mm
+                <div class="rnm__desc" id="description">
+                    Creating wormhole...
                 </div>
             </div>
             <div class="mil">
@@ -102,5 +120,44 @@
             </div>
         </main>
     </body>
-    
+    <script>
+        console.log("starting");
+        const url = `https://rickandmortyapi.com/api/character/${Math.ceil(Math.random() * 826)}`
+        const myRequest = new XMLHttpRequest();
+        myRequest.open("GET", url, true)
+        myRequest.responseType = "json"
+        myRequest.send()
+        myRequest.onreadystatechange = function() {
+            if (myRequest.readyState === 1) {
+                console.log("1")
+            } else if (myRequest.readyState === 2) {
+                console.log("2")
+            } else if (myRequest.readyState === 3) {
+                console.log("3")
+            } else if (myRequest.readyState === 4 && myRequest.status === 200) {
+                console.log(myRequest.response)
+                const myData = myRequest.response;
+
+                const portrait_div = document.getElementById("portrait_div")              
+                const description = document.getElementById("description");
+
+                const img_of_char = document.createElement("img")
+                img_of_char.style.objectFit = "cover";
+                img_of_char.style.width = "100%";
+                img_of_char.style.height = "100%";
+                img_of_char.src = myData.image;
+                img_of_char.style.borderRadius = "1rem";
+                portrait_div.appendChild(img_of_char);
+
+                let word = "a";
+                array_of_vowels = ['a', 'e', 'i', 'o', 'u'];
+                if (array_of_vowels.includes(myData.species[0].toLowerCase())) {
+                    word = "an";
+                }
+                description.textContent = `My name is ${myData.name}. I am ${word} ${myData.species} from the ${myData.location.name}. Fret not! For I will help you find a meal.`;
+
+                
+            }
+        }
+    </script>
 </html>
