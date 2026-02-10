@@ -192,7 +192,7 @@
             if (ingredients.value.trim() === "" || count_of_meals.value === "") {
                 alert(`Don't forget to tell ${name_of_char} the ingredients you have in the kitchen and the number of recipes you want.`)
             } else {
-                meal_list.innerHTML = "";
+                meal_list.innerHTML = `<p style="font-size: 2rem;">Hold tight! ${name_of_char} is finding you a meal...</p>`;
                 const ingr_list = ingredients.value.split(" ").join(",+");
                 url_args = `?ingredients=${ingr_list}&number=${count_of_meals.value}`
                 const meal_url = `https://api.spoonacular.com/recipes/findByIngredients${url_args}`
@@ -210,9 +210,11 @@
                         console.log("3")
                     } else if (mySecondRequest.readyState === 4 && mySecondRequest.status === 200) {
                         const myMealData = mySecondRequest.response;
+                        console.log(myMealData);
                         if (myMealData.length === 0) {
                             alert(`Review your ingredients`);
                         }
+                        meal_list.innerHTML = "";
                         myMealData.forEach(meal_data => {
                             const one_meal = document.createElement("li");
                             const inner_div = document.createElement("div");
