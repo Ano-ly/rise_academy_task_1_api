@@ -60,11 +60,13 @@
                 padding: 1rem;
             }
             .mil__frm {
+                border-radius: 1rem;
                 background-color: rgba(255, 255, 255, 0.6);
                 flex: 1;
             }
-            .fieldset {
-                background-color: rgba(255, 255, 255, 0.6);
+            #mil_form_field, .meal_form {
+                border-radius: 1rem;
+                border: none;
             }
             #mil__frm--cnt {
                 border: 0.1rem solid rgba(128, 0, 128, 0.123);
@@ -159,6 +161,7 @@
                 display: flex;
                 flex-direction: column;
                 gap: 1rem;
+                padding-left: 1rem;
             }
             @media only screen and not (min-width:767px) {
                 main {
@@ -182,11 +185,14 @@
                 #mil__res {
                     overflow-y: visible;
                 }
-                .fieldset {
-                    max-height: fit-content;
-                }
                 .mil__frm {
                     max-height: fit-content;
+                }
+                #mil__res {
+                    padding-left: 0rem;
+                }
+                #meal_list {
+                    padding-left: 0.7rem;
                 }
             }
         </style> 
@@ -243,7 +249,7 @@
                 const ingr_list = ingredients.value.split(" ").join(",+");
                 url_args = `?ingredients=${ingr_list}&number=${count_of_meals.value}`
                 const meal_url = `https://api.spoonacular.com/recipes/findByIngredients${url_args}`
-                MY_API_KEY = "18ba9a928b8a4080a70071e6110fc047";
+                MY_API_KEY = "2f0526207e284b4fb9174cc5038122e4";
                 const mySecondRequest = new XMLHttpRequest();
                 mySecondRequest.open("GET", meal_url, true);
                 mySecondRequest.setRequestHeader("x-api-key", MY_API_KEY);
@@ -265,6 +271,7 @@
                         myMealData.forEach(meal_data => {
                             const one_meal = document.createElement("li");
                             const inner_div = document.createElement("div");
+                            inner_div.style.alignItems = "center";
                             inner_div.style.display = "flex";
                             inner_div.style.flexDirection = "row";
                             inner_div.style.gap = "1rem";
@@ -272,10 +279,11 @@
                             const img_container = document.createElement("div");
                             img_container.style.flex = "1 1 0";
                             img_container.style.overflow = "hidden";
+                            img_container.style.display = "row";
+                            img_container.style.alignItems = "center";
                             const image_of_meal = document.createElement("img");
                             image_of_meal.src = meal_data.image;
                             image_of_meal.style.width = "100%";
-                            image_of_meal.style.height = "100%";
                             image_of_meal.style.objectFit = "cover";
                             image_of_meal.style.minHeight = "0";
                             image_of_meal.style.minWidth = "0";
